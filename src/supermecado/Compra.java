@@ -44,6 +44,13 @@ public class Compra {
         
     }
     
+    public void removerDetalle (int index){
+        DetalleCompra detalle = detalleCompras.get(index);
+        this.costoTotal -= detalle.CostoProducto();
+        detalleCompras.remove(index);
+        
+    }
+    
     public int puntosCompra(){
         int puntosCompra=0;
         if(costoTotal>=200000){

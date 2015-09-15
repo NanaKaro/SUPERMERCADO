@@ -46,6 +46,9 @@ public class Ventana extends javax.swing.JInternalFrame {
         ProductoCantidad.addActionListener(rc);
         registrar.addActionListener(rc);
 
+        devolverDetalleCompra dc = new devolverDetalleCompra();
+        devolver.addActionListener(dc);
+
         ProductoCode.addActionListener(new ActionListener() {
 
             @Override
@@ -492,8 +495,29 @@ public class Ventana extends javax.swing.JInternalFrame {
                     ProductoCode.setText("");
                     ProductoCantidad.setText("");
                     producto = null;
+                    CompraTotal.setText(compra.getCostoTotal() + "");
+                    CompraPuntos.setText(compra.puntosCompra() + "");
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
+            }
+        }
+
+    }
+
+    public class devolverDetalleCompra implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (tabla.getSelectedRow() == -1) {
+                JOptionPane.showMessageDialog(null, "no se ha seleccionado ningun producto a devolver");
+            } else {
+                compra.removerDetalle(tabla.getSelectedRow());
+                tabla.updateUI();
+                CompraTotal.setText(compra.getCostoTotal() + "");
+                CompraPuntos.setText(compra.puntosCompra() + "");
+                if (compra.getDetalleCompras().isEmpty()) {
+                    devolver.setEnabled(false);
                 }
             }
         }
