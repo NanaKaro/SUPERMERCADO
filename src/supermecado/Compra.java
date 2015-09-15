@@ -21,15 +21,15 @@ public class Compra {
     private Empleado empleado;
     private Date fecha;
 
-    public Compra(int costoTotal, Cliente cliente) {
-        this.costoTotal = costoTotal;
+    public Compra( Empleado empleado, Cliente cliente) {
         this.cliente = cliente;
+        this.empleado = empleado;
     }
     /**
      * Metodo para agregar Detalle de compra
      * @param detalle objeto tipo DetalleCompra
      */
-    public void add(DetalleCompra detalle) {
+    public void agregar(DetalleCompra detalle) {
         detalleCompras.add(detalle);
         this.costoTotal += detalle.CostoProducto();
     }

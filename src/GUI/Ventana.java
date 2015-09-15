@@ -12,7 +12,10 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import supermecado.Almacen;
 import supermecado.Cliente;
+import supermecado.Compra;
+import supermecado.DetalleCompra;
 import supermecado.ObjectNotFoundException;
+import supermecado.Producto;
 
 /**
  *
@@ -24,7 +27,9 @@ public class Ventana extends javax.swing.JInternalFrame {
      * Creates new form Ventana
      */
     private Almacen tienda=null;
-   
+    private Cliente cliente = null;
+    private Compra compra = null;
+    private Producto producto = null;
     
     public Ventana(Almacen market) {
         this.tienda = market;
@@ -36,6 +41,25 @@ public class Ventana extends javax.swing.JInternalFrame {
         ClienteId.addActionListener(bc);
         buscar.addActionListener(bc);
         
+        registrarDetalleCompra rc = new registrarDetalleCompra();
+        ProductoCantidad.addActionListener(rc);
+        registrar.addActionListener(rc);
+        
+        ProductoCode.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String cod = ProductoCode.getText().trim();
+                try {
+                    producto = tienda.BuscarProducto(cod);
+                    ProductoName.setText(producto.getNombre());
+                    ProductoCosto.setText(producto.getCostoUnitario() + "");
+                    ProductoCantidad.setEditable(true);
+                } catch (ObjectNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
+            }
+        });
         
     }
 
@@ -69,7 +93,7 @@ public class Ventana extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        registrar = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -171,9 +195,10 @@ public class Ventana extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Cantidad:");
 
-        jButton2.setText("Resgistrar");
+        registrar.setText("Registrar");
 
         jButton3.setText("Devolver");
+        jButton3.setEnabled(false);
 
         jLabel8.setText("Detalle de la Compra:");
 
@@ -224,7 +249,7 @@ public class Ventana extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(registrar, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -284,7 +309,7 @@ public class Ventana extends javax.swing.JInternalFrame {
                     .addComponent(ProductoCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
+                    .addComponent(registrar)
                     .addComponent(jButton3))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -358,7 +383,6 @@ public class Ventana extends javax.swing.JInternalFrame {
     private javax.swing.JTextField ProductoCosto;
     private javax.swing.JTextField ProductoName;
     private javax.swing.JButton buscar;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -378,6 +402,7 @@ public class Ventana extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton registrar;
     private javax.swing.JLabel vendedor;
     // End of variables declaration//GEN-END:variables
 
@@ -389,13 +414,31 @@ public class Ventana extends javax.swing.JInternalFrame {
         public void actionPerformed(ActionEvent e) {
             long id = Long.parseLong(ClienteId.getText().trim());
             try {
-                Cliente cliente = tienda.BuscarCliente(id);
+                cliente = tienda.BuscarCliente(id);
                 ClienteName.setText(cliente.getNombres()+ " " + cliente.getApellidos());
                 ClientePuntos.setText(cliente.getPuntos()+"");
+                ProductoCode.setEditable(true);
+                compra = new Compra(null, cliente);
             } catch (ObjectNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
             
+        }
+        
+    }
+    
+    public class registrarDetalleCompra implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int cantidad = Integer.parseInt(ProductoCantidad.getText().trim());
+            DetalleCompra detalle = new DetalleCompra(cantidad, producto);
+            compra.agregar(detalle);
+            ProductoName.setText("");
+            ProductoCosto.setText("");
+            ProductoCode.setText("");
+            ProductoCantidad.setText("");
+            producto=null;
         }
         
     }
