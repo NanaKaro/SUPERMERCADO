@@ -9,7 +9,7 @@
             <Property name="text" type="java.lang.String" value="File"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="venta">
+            <MenuItem class="javax.swing.JMenuItem" name="mostrarVenta">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Realizar venta"/>
               </Properties>
@@ -47,12 +47,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="Escritorio" alignment="0" pref="476" max="32767" attributes="0"/>
+          <Component id="Escritorio" alignment="0" pref="575" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="Escritorio" alignment="0" pref="342" max="32767" attributes="0"/>
+          <Component id="Escritorio" alignment="0" pref="584" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>

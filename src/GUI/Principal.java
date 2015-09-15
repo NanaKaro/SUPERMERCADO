@@ -5,6 +5,10 @@
  */
 package GUI;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import supermecado.Almacen;
+
 /**
  *
  * @author atenea
@@ -14,8 +18,29 @@ public class Principal extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
-    public Principal() {
+    
+    private Almacen tienda = null;
+    private Ventana venta = null;
+    
+    public Principal(Almacen almacen) {
+        this.tienda = almacen;
         initComponents();
+        ManejadorVentana mv = new ManejadorVentana();
+        mostrarVenta.addActionListener(mv);
+        
+//        FORMA  ANONIMA
+//        mostrarVenta.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//               if(venta==null){
+//                   venta = new Ventana(tienda);
+//                   Escritorio.add(venta);
+//               }
+//               venta.setVisible(true);
+//            }
+//        });
+        
     }
 
     /**
@@ -30,15 +55,15 @@ public class Principal extends javax.swing.JFrame {
         Escritorio = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        venta = new javax.swing.JMenuItem();
+        mostrarVenta = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jMenu1.setText("File");
 
-        venta.setText("Realizar venta");
-        jMenu1.add(venta);
+        mostrarVenta.setText("Realizar venta");
+        jMenu1.add(mostrarVenta);
 
         jMenuBar1.add(jMenu1);
 
@@ -51,11 +76,11 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
+            .addComponent(Escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
+            .addComponent(Escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
         );
 
         pack();
@@ -71,6 +96,20 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem venta;
+    private javax.swing.JMenuItem mostrarVenta;
     // End of variables declaration//GEN-END:variables
+
+    public class ManejadorVentana implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(venta==null){
+                venta=new Ventana(tienda);
+                Escritorio.add(venta);
+            }
+            venta.setVisible(true);
+        }
+        
+    }
+    
 }

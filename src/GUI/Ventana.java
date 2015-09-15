@@ -5,7 +5,14 @@
  */
 package GUI;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import supermecado.Almacen;
+import supermecado.Cliente;
+import supermecado.ObjectNotFoundException;
 
 /**
  *
@@ -16,20 +23,18 @@ public class Ventana extends javax.swing.JInternalFrame {
     /**
      * Creates new form Ventana
      */
-    private Almacen market=null;
+    private Almacen tienda=null;
    
-    public Ventana() {
-        initComponents();
-        
-        
-    }
+    
     public Ventana(Almacen market) {
-        this.market = market;
+        this.tienda = market;
         initComponents();
+        AlmacenName.setText(this.tienda.getNombre());
+        AlmacenNit.setText(this.tienda.getNIT());
         
-        AlmacenName.setText(this.market.getNombre());
-        AlmacenNit.setText(this.market.getNIT());
-        
+        buscarCliente bc = new buscarCliente();
+        ClienteId.addActionListener(bc);
+        buscar.addActionListener(bc);
         
         
     }
@@ -54,7 +59,7 @@ public class Ventana extends javax.swing.JInternalFrame {
         ClienteId = new javax.swing.JTextField();
         ClienteName = new javax.swing.JTextField();
         ClientePuntos = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        buscar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         ProductoCode = new javax.swing.JTextField();
@@ -76,20 +81,10 @@ public class Ventana extends javax.swing.JInternalFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         vendedor = new javax.swing.JLabel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
 
         jLabel10.setText("jLabel10");
 
         jButton4.setText("jButton4");
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         AlmacenName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         AlmacenName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -107,13 +102,11 @@ public class Ventana extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Puntos:");
 
-        ClienteId.setEditable(false);
-
         ClienteName.setEditable(false);
 
         ClientePuntos.setEditable(false);
 
-        jButton1.setText("Buscar");
+        buscar.setText("Buscar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -134,7 +127,7 @@ public class Ventana extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(ClienteId)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))
+                        .addComponent(buscar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(ClientePuntos, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -148,7 +141,7 @@ public class Ventana extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(ClienteId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(buscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -261,7 +254,7 @@ public class Ventana extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(CompraPuntos, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 1, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -313,31 +306,6 @@ public class Ventana extends javax.swing.JInternalFrame {
 
         vendedor.setText("Vendedor: No Registrado");
 
-        jMenu1.setText("Aplicación");
-
-        jMenuItem1.setText("Iniciar Sesión");
-        jMenu1.add(jMenuItem1);
-
-        jMenuItem2.setText("Cerrar Sesión");
-        jMenu1.add(jMenuItem2);
-
-        jMenuItem3.setText("Salir");
-        jMenu1.add(jMenuItem3);
-
-        jMenuItem5.setText("Mostrar Ventas");
-        jMenu1.add(jMenuItem5);
-
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Ayuda");
-
-        jMenuItem4.setText("Acerca de...");
-        jMenu2.add(jMenuItem4);
-
-        jMenuBar1.add(jMenu2);
-
-        setJMenuBar(jMenuBar1);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -365,7 +333,7 @@ public class Ventana extends javax.swing.JInternalFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addComponent(vendedor))
         );
 
@@ -389,7 +357,7 @@ public class Ventana extends javax.swing.JInternalFrame {
     private javax.swing.JTextField ProductoCode;
     private javax.swing.JTextField ProductoCosto;
     private javax.swing.JTextField ProductoName;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton buscar;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -406,18 +374,29 @@ public class Ventana extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel vendedor;
     // End of variables declaration//GEN-END:variables
+
+
+
+    public class buscarCliente implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            long id = Long.parseLong(ClienteId.getText().trim());
+            try {
+                Cliente cliente = tienda.BuscarCliente(id);
+                ClienteName.setText(cliente.getNombres()+ " " + cliente.getApellidos());
+                ClientePuntos.setText(cliente.getPuntos()+"");
+            } catch (ObjectNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+            
+        }
+        
+    }
 }
