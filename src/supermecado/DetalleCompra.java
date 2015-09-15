@@ -16,7 +16,8 @@ public class DetalleCompra {
     int cantidadProductos;
     private Producto producto;
 
-    public DetalleCompra(int cantidadProductos, Producto producto) {
+    public DetalleCompra(int cantidadProductos, Producto producto) throws Exception {
+        if(producto==null) throw new Exception("El producto no puede ser nulo");
         this.cantidadProductos = cantidadProductos;
         this.producto = producto;
     }
@@ -29,6 +30,11 @@ public class DetalleCompra {
         return cantidadProductos;
     }
 
+    public Producto getProducto() {
+        return producto;
+    }
+
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

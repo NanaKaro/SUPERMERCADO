@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.AbstractTableModel;
 import supermecado.Almacen;
 import supermecado.Cliente;
 import supermecado.Compra;
@@ -26,25 +27,25 @@ public class Ventana extends javax.swing.JInternalFrame {
     /**
      * Creates new form Ventana
      */
-    private Almacen tienda=null;
+    private Almacen tienda = null;
     private Cliente cliente = null;
     private Compra compra = null;
     private Producto producto = null;
-    
+
     public Ventana(Almacen market) {
         this.tienda = market;
         initComponents();
         AlmacenName.setText(this.tienda.getNombre());
         AlmacenNit.setText(this.tienda.getNIT());
-        
+
         buscarCliente bc = new buscarCliente();
         ClienteId.addActionListener(bc);
         buscar.addActionListener(bc);
-        
+
         registrarDetalleCompra rc = new registrarDetalleCompra();
         ProductoCantidad.addActionListener(rc);
         registrar.addActionListener(rc);
-        
+
         ProductoCode.addActionListener(new ActionListener() {
 
             @Override
@@ -60,7 +61,54 @@ public class Ventana extends javax.swing.JInternalFrame {
                 }
             }
         });
-        
+
+        this.tabla.setModel(new AbstractTableModel() {
+
+            @Override
+            public int getRowCount() {
+                if (compra == null) {
+                    return 0;
+                }
+                return compra.getDetalleCompras().size();
+            }
+
+            @Override
+            public int getColumnCount() {
+                return 4;
+            }
+
+            @Override
+            public String getColumnName(int column) {
+                switch (column) {
+                    case 0:
+                        return "Producto";
+                    case 1:
+                        return "Costo Unitario";
+                    case 2:
+                        return "Cantidad";
+                    case 3:
+                        return "Costo";
+                }
+                return "";
+            }
+
+            @Override
+            public Object getValueAt(int rowIndex, int columnIndex) {
+                DetalleCompra detalle = compra.getDetalleCompras().get(rowIndex);
+                switch (columnIndex) {
+                    case 0:
+                        return detalle.getProducto().getNombre();
+                    case 1:
+                        return detalle.getProducto().getCostoUnitario();
+                    case 2:
+                        return detalle.getCantidadProductos();
+                    case 3:
+                        return detalle.CostoProducto();
+                }
+                return "";
+            }
+        });
+
     }
 
     /**
@@ -94,12 +142,12 @@ public class Ventana extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         registrar = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        devolver = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         CompraPuntos = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla = new javax.swing.JTable();
         jLabel11 = new javax.swing.JLabel();
         CompraTotal = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
@@ -197,8 +245,8 @@ public class Ventana extends javax.swing.JInternalFrame {
 
         registrar.setText("Registrar");
 
-        jButton3.setText("Devolver");
-        jButton3.setEnabled(false);
+        devolver.setText("Devolver");
+        devolver.setEnabled(false);
 
         jLabel8.setText("Detalle de la Compra:");
 
@@ -206,9 +254,9 @@ public class Ventana extends javax.swing.JInternalFrame {
 
         CompraPuntos.setEditable(false);
 
-        jTable1.setAutoCreateRowSorter(true);
-        jTable1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setAutoCreateRowSorter(true);
+        tabla.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -231,7 +279,7 @@ public class Ventana extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabla);
 
         jLabel11.setText("Total:");
 
@@ -251,7 +299,7 @@ public class Ventana extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(registrar, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(devolver, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -310,7 +358,7 @@ public class Ventana extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(registrar)
-                    .addComponent(jButton3))
+                    .addComponent(devolver))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
@@ -368,7 +416,6 @@ public class Ventana extends javax.swing.JInternalFrame {
     /**
      * @param args the command line arguments
      */
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AlmacenName;
@@ -383,7 +430,7 @@ public class Ventana extends javax.swing.JInternalFrame {
     private javax.swing.JTextField ProductoCosto;
     private javax.swing.JTextField ProductoName;
     private javax.swing.JButton buscar;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton devolver;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -401,12 +448,10 @@ public class Ventana extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton registrar;
+    private javax.swing.JTable tabla;
     private javax.swing.JLabel vendedor;
     // End of variables declaration//GEN-END:variables
-
-
 
     public class buscarCliente implements ActionListener {
 
@@ -415,31 +460,43 @@ public class Ventana extends javax.swing.JInternalFrame {
             long id = Long.parseLong(ClienteId.getText().trim());
             try {
                 cliente = tienda.BuscarCliente(id);
-                ClienteName.setText(cliente.getNombres()+ " " + cliente.getApellidos());
-                ClientePuntos.setText(cliente.getPuntos()+"");
+                ClienteName.setText(cliente.getNombres() + " " + cliente.getApellidos());
+                ClientePuntos.setText(cliente.getPuntos() + "");
                 ProductoCode.setEditable(true);
                 compra = new Compra(null, cliente);
             } catch (ObjectNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
-            
+
         }
-        
+
     }
-    
+
     public class registrarDetalleCompra implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            int cantidad = Integer.parseInt(ProductoCantidad.getText().trim());
-            DetalleCompra detalle = new DetalleCompra(cantidad, producto);
-            compra.agregar(detalle);
-            ProductoName.setText("");
-            ProductoCosto.setText("");
-            ProductoCode.setText("");
-            ProductoCantidad.setText("");
-            producto=null;
+            if (ProductoCantidad.getText().trim().equals("")) {
+                JOptionPane.showMessageDialog(null, "la cantidad no puede ser vacia");
+            } else {
+                int cantidad = Integer.parseInt(ProductoCantidad.getText().trim());
+                DetalleCompra detalle;
+                try {
+                    detalle = new DetalleCompra(cantidad, producto);
+
+                    compra.agregar(detalle);
+                    tabla.updateUI();
+                    devolver.setEnabled(true);
+                    ProductoName.setText("");
+                    ProductoCosto.setText("");
+                    ProductoCode.setText("");
+                    ProductoCantidad.setText("");
+                    producto = null;
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
+            }
         }
-        
+
     }
 }

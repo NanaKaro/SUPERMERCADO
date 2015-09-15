@@ -8,6 +8,8 @@ package supermecado;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -29,9 +31,17 @@ public class Compra {
      * Metodo para agregar Detalle de compra
      * @param detalle objeto tipo DetalleCompra
      */
-    public void agregar(DetalleCompra detalle) {
-        detalleCompras.add(detalle);
+    public void agregar(DetalleCompra detalle){
+        try {
+            
+            DetalleCompra detail = buscar(detalle);
+            detail.cantidadProductos += detalle.cantidadProductos;
+            this.costoTotal += detalle.CostoProducto();
+        } catch (Exception ex) {
+            detalleCompras.add(detalle);
         this.costoTotal += detalle.CostoProducto();
+        }
+        
     }
     
     public int puntosCompra(){
@@ -49,6 +59,10 @@ public class Compra {
 
     public Date getFecha() {
         return fecha;
+    }
+
+    public ArrayList<DetalleCompra> getDetalleCompras() {
+        return detalleCompras;
     }
 
    
