@@ -48,6 +48,11 @@ public class Ventana extends javax.swing.JInternalFrame {
 
         devolverDetalleCompra dc = new devolverDetalleCompra();
         devolver.addActionListener(dc);
+        
+        cancelarVenta cv = new cancelarVenta();
+        cancelar.addActionListener(cv);
+        
+        
 
         ProductoCode.addActionListener(new ActionListener() {
 
@@ -154,7 +159,7 @@ public class Ventana extends javax.swing.JInternalFrame {
         jLabel11 = new javax.swing.JLabel();
         CompraTotal = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        cancelar = new javax.swing.JButton();
         vendedor = new javax.swing.JLabel();
 
         jLabel10.setText("jLabel10");
@@ -290,7 +295,7 @@ public class Ventana extends javax.swing.JInternalFrame {
 
         jButton5.setText("Registrar Venta");
 
-        jButton6.setText("Cancelar Venta");
+        cancelar.setText("Cancelar Venta");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -340,7 +345,7 @@ public class Ventana extends javax.swing.JInternalFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -376,7 +381,7 @@ public class Ventana extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton5)
-                    .addComponent(jButton6))
+                    .addComponent(cancelar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -433,10 +438,10 @@ public class Ventana extends javax.swing.JInternalFrame {
     private javax.swing.JTextField ProductoCosto;
     private javax.swing.JTextField ProductoName;
     private javax.swing.JButton buscar;
+    private javax.swing.JButton cancelar;
     private javax.swing.JButton devolver;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -522,5 +527,26 @@ public class Ventana extends javax.swing.JInternalFrame {
             }
         }
 
+    }
+    
+    public class cancelarVenta implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            cliente=null;
+            producto=null;
+            compra=null;
+            ClienteId.setText("");
+            ClienteName.setText("");
+            ClientePuntos.setText("");
+            ProductoCode.setText("");
+            ProductoName.setText("");
+            ProductoCosto.setText("");
+            ProductoCantidad.setText("");
+            CompraPuntos.setText("");
+            CompraTotal.setText("");
+            tabla.updateUI();
+        }
+        
     }
 }
