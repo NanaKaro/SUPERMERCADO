@@ -21,12 +21,19 @@ public class Principal extends javax.swing.JFrame {
     
     private Almacen tienda = null;
     private Ventana venta = null;
+    private VentasRealizadas realizadas = null;
+    
     
     public Principal(Almacen almacen) {
         this.tienda = almacen;
         initComponents();
+        
         ManejadorVentana mv = new ManejadorVentana();
         mostrarVenta.addActionListener(mv);
+        
+        ManejadorVentasRealizadas mvr = new ManejadorVentasRealizadas();
+        mostrarV.addActionListener(mvr);
+                
         
 //        FORMA  ANONIMA
 //        mostrarVenta.addActionListener(new ActionListener() {
@@ -56,6 +63,7 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mostrarVenta = new javax.swing.JMenuItem();
+        mostrarV = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -64,6 +72,9 @@ public class Principal extends javax.swing.JFrame {
 
         mostrarVenta.setText("Realizar venta");
         jMenu1.add(mostrarVenta);
+
+        mostrarV.setText("ventas realizadas");
+        jMenu1.add(mostrarV);
 
         jMenuBar1.add(jMenu1);
 
@@ -96,6 +107,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem mostrarV;
     private javax.swing.JMenuItem mostrarVenta;
     // End of variables declaration//GEN-END:variables
 
@@ -108,6 +120,19 @@ public class Principal extends javax.swing.JFrame {
                 Escritorio.add(venta);
             }
             venta.setVisible(true);
+        }
+        
+    }
+    
+    public class ManejadorVentasRealizadas implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(realizadas==null){
+                realizadas=new VentasRealizadas(tienda);
+                Escritorio.add(realizadas);
+            }
+            realizadas.setVisible(true);
         }
         
     }

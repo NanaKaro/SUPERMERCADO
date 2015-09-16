@@ -72,7 +72,11 @@ public class Compra {
         return detalleCompras;
     }
 
-   
+    public Empleado getEmpleado() {
+        return empleado;
+    }
+
+    
 
     public int getCostoTotal() {
         return costoTotal;

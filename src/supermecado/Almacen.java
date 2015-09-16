@@ -166,4 +166,9 @@ public class Almacen {
         return NIT;
     }
 
+    public ArrayList<Compra> getCompras() {
+        return compras;
+    }
+
+    
 }

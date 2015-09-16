@@ -15,6 +15,7 @@ import supermecado.Almacen;
 import supermecado.Cliente;
 import supermecado.Compra;
 import supermecado.DetalleCompra;
+import supermecado.Empleado;
 import supermecado.ObjectNotFoundException;
 import supermecado.Producto;
 
@@ -48,11 +49,12 @@ public class Ventana extends javax.swing.JInternalFrame {
 
         devolverDetalleCompra dc = new devolverDetalleCompra();
         devolver.addActionListener(dc);
-        
+
         cancelarVenta cv = new cancelarVenta();
         cancelar.addActionListener(cv);
         
-        
+        registrarVenta rv = new registrarVenta();
+        registrarV.addActionListener(rv);
 
         ProductoCode.addActionListener(new ActionListener() {
 
@@ -158,7 +160,7 @@ public class Ventana extends javax.swing.JInternalFrame {
         tabla = new javax.swing.JTable();
         jLabel11 = new javax.swing.JLabel();
         CompraTotal = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
+        registrarV = new javax.swing.JButton();
         cancelar = new javax.swing.JButton();
         vendedor = new javax.swing.JLabel();
 
@@ -293,7 +295,7 @@ public class Ventana extends javax.swing.JInternalFrame {
 
         CompraTotal.setEditable(false);
 
-        jButton5.setText("Registrar Venta");
+        registrarV.setText("Registrar Venta");
 
         cancelar.setText("Cancelar Venta");
 
@@ -343,7 +345,7 @@ public class Ventana extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(CompraTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(registrarV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -380,7 +382,7 @@ public class Ventana extends javax.swing.JInternalFrame {
                     .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
+                    .addComponent(registrarV)
                     .addComponent(cancelar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -441,7 +443,6 @@ public class Ventana extends javax.swing.JInternalFrame {
     private javax.swing.JButton cancelar;
     private javax.swing.JButton devolver;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -457,6 +458,7 @@ public class Ventana extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton registrar;
+    private javax.swing.JButton registrarV;
     private javax.swing.JTable tabla;
     private javax.swing.JLabel vendedor;
     // End of variables declaration//GEN-END:variables
@@ -471,7 +473,7 @@ public class Ventana extends javax.swing.JInternalFrame {
                 ClienteName.setText(cliente.getNombres() + " " + cliente.getApellidos());
                 ClientePuntos.setText(cliente.getPuntos() + "");
                 ProductoCode.setEditable(true);
-                compra = new Compra(null, cliente);
+                compra = new Compra(new Empleado(123, "Esperanza", "Gomez", "Esgo", "gomez123"), cliente);
             } catch (ObjectNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
@@ -528,14 +530,14 @@ public class Ventana extends javax.swing.JInternalFrame {
         }
 
     }
-    
+
     public class cancelarVenta implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            cliente=null;
-            producto=null;
-            compra=null;
+            cliente = null;
+            producto = null;
+            compra = null;
             ClienteId.setText("");
             ClienteName.setText("");
             ClientePuntos.setText("");
@@ -547,6 +549,23 @@ public class Ventana extends javax.swing.JInternalFrame {
             CompraTotal.setText("");
             tabla.updateUI();
         }
-        
+
+    }
+
+    public class registrarVenta implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                compra.getCliente().incrementarPuntos(compra.puntosCompra());
+                tienda.add(compra);
+                cancelarVenta cv = new cancelarVenta();
+                cv.actionPerformed(e);
+                
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
+
     }
 }
