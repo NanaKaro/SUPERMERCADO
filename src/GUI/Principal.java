@@ -64,6 +64,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         mostrarVenta = new javax.swing.JMenuItem();
         mostrarV = new javax.swing.JMenuItem();
+        cerrar = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -75,6 +76,9 @@ public class Principal extends javax.swing.JFrame {
 
         mostrarV.setText("ventas realizadas");
         jMenu1.add(mostrarV);
+
+        cerrar.setText("cerrar  sesión");
+        jMenu1.add(cerrar);
 
         jMenuBar1.add(jMenu1);
 
@@ -104,6 +108,7 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane Escritorio;
+    private javax.swing.JMenuItem cerrar;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;

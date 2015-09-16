@@ -19,6 +19,11 @@
                 <Property name="text" type="java.lang.String" value="ventas realizadas"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="cerrar">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="cerrar  sesi&#xf3;n"/>
+              </Properties>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu2">
