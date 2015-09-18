@@ -7,7 +7,12 @@ package GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import supermecado.Almacen;
+import supermecado.Empleado;
+import supermecado.ObjectNotFoundException;
 
 /**
  *
@@ -34,6 +39,9 @@ public class Principal extends javax.swing.JFrame {
         ManejadorVentasRealizadas mvr = new ManejadorVentasRealizadas();
         mostrarV.addActionListener(mvr);
                 
+        loginEmpleado le = new loginEmpleado();
+        contraseña.addActionListener(le);
+        aceptar.addActionListener(le);
         
 //        FORMA  ANONIMA
 //        mostrarVenta.addActionListener(new ActionListener() {
@@ -60,6 +68,12 @@ public class Principal extends javax.swing.JFrame {
     private void initComponents() {
 
         Escritorio = new javax.swing.JDesktopPane();
+        login = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        usuario = new javax.swing.JTextField();
+        contraseña = new javax.swing.JTextField();
+        aceptar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mostrarVenta = new javax.swing.JMenuItem();
@@ -69,15 +83,61 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        login.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel5.setText("Usuario");
+
+        jLabel6.setText("Contraseña");
+
+        aceptar.setText("Aceptar");
+
+        javax.swing.GroupLayout loginLayout = new javax.swing.GroupLayout(login);
+        login.setLayout(loginLayout);
+        loginLayout.setHorizontalGroup(
+            loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(usuario, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                    .addComponent(contraseña))
+                .addGap(96, 96, 96))
+            .addGroup(loginLayout.createSequentialGroup()
+                .addGap(81, 81, 81)
+                .addComponent(aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        loginLayout.setVerticalGroup(
+            loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(aceptar)
+                .addContainerGap())
+        );
+
         jMenu1.setText("File");
 
         mostrarVenta.setText("Realizar venta");
+        mostrarVenta.setEnabled(false);
         jMenu1.add(mostrarVenta);
 
         mostrarV.setText("ventas realizadas");
+        mostrarV.setEnabled(false);
         jMenu1.add(mostrarV);
 
         cerrar.setText("cerrar  sesión");
+        cerrar.setEnabled(false);
         jMenu1.add(cerrar);
 
         jMenuBar1.add(jMenu1);
@@ -91,11 +151,18 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(login, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
+            .addComponent(Escritorio, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(121, 121, 121)
+                .addComponent(login, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(283, Short.MAX_VALUE))
         );
 
         pack();
@@ -108,12 +175,18 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane Escritorio;
+    private javax.swing.JButton aceptar;
     private javax.swing.JMenuItem cerrar;
+    private javax.swing.JTextField contraseña;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel login;
     private javax.swing.JMenuItem mostrarV;
     private javax.swing.JMenuItem mostrarVenta;
+    private javax.swing.JTextField usuario;
     // End of variables declaration//GEN-END:variables
 
     public class ManejadorVentana implements ActionListener{
@@ -142,4 +215,32 @@ public class Principal extends javax.swing.JFrame {
         
     }
     
-}
+    public class loginEmpleado implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            
+            try {
+                Empleado empleado = tienda.BuscarEmpleado(usuario.getText().trim());
+                if (empleado.getPassword().equals(contraseña.getText().trim())){
+                    mostrarVenta.setEnabled(true);
+                    mostrarV.setEnabled(true);
+                    cerrar.setEnabled(true);
+                    login.setVisible(false);
+                   //ManejadorVentana mv = new ManejadorVentana();
+                   // mv.actionPerformed(e);
+                    new ManejadorVentana().actionPerformed(e);
+                }else {
+                    JOptionPane.showMessageDialog(null,"La contraseña no es correcta");
+                }
+                
+            } catch (ObjectNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+            
+        }
+        
+        
+    }
+     
+} 

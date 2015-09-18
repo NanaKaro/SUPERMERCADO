@@ -51,6 +51,10 @@ public class Empleado {
         return login;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
    
     @Override
     public boolean equals(Object obj) {
