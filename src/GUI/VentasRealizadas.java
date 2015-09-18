@@ -22,22 +22,22 @@ public class VentasRealizadas extends javax.swing.JInternalFrame {
      * Creates new form NewJInternalFrame
      */
     private Almacen tienda = null;
-   
+
     public VentasRealizadas(Almacen almacen) {
         initComponents();
         this.tienda = almacen;
-        
+
         this.addInternalFrameListener(new InternalFrameAdapter() {
-            
-            public void internalFrameListener (InternalFrameEvent e){
+
+            @Override
+            public void internalFrameActivated(InternalFrameEvent e) {
                 super.internalFrameActivated(e);
                 tablaVentas.updateUI();
-                
+
             }
-            
-});
-        
-        
+
+        });
+
         this.tablaVentas.setModel(new AbstractTableModel() {
 
             @Override
@@ -73,7 +73,7 @@ public class VentasRealizadas extends javax.swing.JInternalFrame {
                 Compra compra = tienda.getCompras().get(rowIndex);
                 switch (columnIndex) {
                     case 0:
-                        return compra.getEmpleado().getNombres()+ " " + compra.getEmpleado().getApellidos();
+                        return compra.getEmpleado().getNombres() + " " + compra.getEmpleado().getApellidos();
                     case 1:
                         return compra.getCliente().getNombres() + " " + compra.getEmpleado().getApellidos();
                     case 2:
