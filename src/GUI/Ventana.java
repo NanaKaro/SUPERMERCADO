@@ -168,6 +168,9 @@ public class Ventana extends javax.swing.JInternalFrame {
 
         jButton4.setText("jButton4");
 
+        setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
+
         AlmacenName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         AlmacenName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         AlmacenName.setText("SuperMercado MercaMAX");
