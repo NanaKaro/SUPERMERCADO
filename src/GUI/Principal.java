@@ -23,26 +23,27 @@ public class Principal extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
-    
     private Almacen tienda = null;
     private Ventana venta = null;
     private VentasRealizadas realizadas = null;
-    
-    
+
     public Principal(Almacen almacen) {
         this.tienda = almacen;
         initComponents();
-        
+
         ManejadorVentana mv = new ManejadorVentana();
         mostrarVenta.addActionListener(mv);
-        
+
         ManejadorVentasRealizadas mvr = new ManejadorVentasRealizadas();
         mostrarV.addActionListener(mvr);
-                
+
         loginEmpleado le = new loginEmpleado();
         contraseña.addActionListener(le);
         aceptar.addActionListener(le);
-        
+
+        CerrarSesion mcs = new CerrarSesion();
+        cerrar.addActionListener(mcs);
+
 //        FORMA  ANONIMA
 //        mostrarVenta.addActionListener(new ActionListener() {
 //
@@ -55,7 +56,6 @@ public class Principal extends javax.swing.JFrame {
 //               venta.setVisible(true);
 //            }
 //        });
-        
     }
 
     /**
@@ -132,7 +132,7 @@ public class Principal extends javax.swing.JFrame {
         Escritorio.setLayout(EscritorioLayout);
         EscritorioLayout.setHorizontalGroup(
             EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 852, Short.MAX_VALUE)
+            .addGap(0, 832, Short.MAX_VALUE)
             .addGroup(EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(EscritorioLayout.createSequentialGroup()
                     .addGap(291, 291, 291)
@@ -141,7 +141,7 @@ public class Principal extends javax.swing.JFrame {
         );
         EscritorioLayout.setVerticalGroup(
             EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 544, Short.MAX_VALUE)
+            .addGap(0, 637, Short.MAX_VALUE)
             .addGroup(EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(EscritorioLayout.createSequentialGroup()
                     .addGap(190, 190, 190)
@@ -191,7 +191,6 @@ public class Principal extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane Escritorio;
@@ -209,58 +208,75 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField usuario;
     // End of variables declaration//GEN-END:variables
 
-    public class ManejadorVentana implements ActionListener{
+    public class ManejadorVentana implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(venta==null){
-                venta=new Ventana(tienda);
+            if (venta == null) {
+                venta = new Ventana(tienda);
                 Escritorio.add(venta);
             }
             venta.setVisible(true);
         }
-        
+
     }
-    
-    public class ManejadorVentasRealizadas implements ActionListener{
+
+    public class ManejadorVentasRealizadas implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(realizadas==null){
-                realizadas=new VentasRealizadas(tienda);
+            if (realizadas == null) {
+                realizadas = new VentasRealizadas(tienda);
                 Escritorio.add(realizadas);
             }
             realizadas.setVisible(true);
         }
-        
+
     }
-    
+
     public class loginEmpleado implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            
+
             try {
                 Empleado empleado = tienda.BuscarEmpleado(usuario.getText().trim());
-                if (empleado.getPassword().equals(contraseña.getText().trim())){
+                if (empleado.getPassword().equals(contraseña.getText().trim())) {
+                    tienda.logueado = empleado;
                     mostrarVenta.setEnabled(true);
                     mostrarV.setEnabled(true);
                     cerrar.setEnabled(true);
                     login.setVisible(false);
                    //ManejadorVentana mv = new ManejadorVentana();
-                   // mv.actionPerformed(e);
+                    // mv.actionPerformed(e);
                     new ManejadorVentana().actionPerformed(e);
-                }else {
-                    JOptionPane.showMessageDialog(null,"La contraseña no es correcta");
+                } else {
+                    JOptionPane.showMessageDialog(null, "La contraseña no es correcta");
                 }
-                
+
             } catch (ObjectNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
-            
+
         }
-        
-        
+
     }
-     
-} 
+
+    public class CerrarSesion implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            mostrarVenta.setEnabled(false);
+            mostrarV.setEnabled(false);
+            cerrar.setEnabled(false);
+            login.setVisible(true);
+            venta.setVisible(false);
+            realizadas.setVisible(false);
+            venta.cv.actionPerformed(e); // para cancelar la venta cuando se cierra la sesion
+
+        }
+
+    }
+
+}

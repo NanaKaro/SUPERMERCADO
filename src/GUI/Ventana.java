@@ -32,12 +32,16 @@ public class Ventana extends javax.swing.JInternalFrame {
     private Cliente cliente = null;
     private Compra compra = null;
     private Producto producto = null;
+    public cancelarVenta cv = new cancelarVenta();
 
     public Ventana(Almacen market) {
         this.tienda = market;
         initComponents();
         AlmacenName.setText(this.tienda.getNombre());
         AlmacenNit.setText(this.tienda.getNIT());
+        
+        //colocar el nombre del vendedor
+        vendedor.setText("Vendedor: "+ tienda.logueado.getNombres() + " " + tienda.logueado.getApellidos());
 
         buscarCliente bc = new buscarCliente();
         ClienteId.addActionListener(bc);
@@ -50,7 +54,7 @@ public class Ventana extends javax.swing.JInternalFrame {
         devolverDetalleCompra dc = new devolverDetalleCompra();
         devolver.addActionListener(dc);
 
-        cancelarVenta cv = new cancelarVenta();
+        
         cancelar.addActionListener(cv);
         
         registrarVenta rv = new registrarVenta();

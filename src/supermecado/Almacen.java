@@ -20,6 +20,7 @@ public class Almacen {
     private ArrayList<Empleado> empleados = new ArrayList<>();
     private ArrayList<Cliente> clientes = new ArrayList<>();
     private ArrayList<Compra> compras = new ArrayList<>();
+    public Empleado logueado; 
 
     public Almacen(String nombre, String NIT) {
         this.nombre = nombre;
