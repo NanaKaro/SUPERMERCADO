@@ -43,11 +43,20 @@ public class Principal extends javax.swing.JFrame {
 
             @Override
             public void windowClosing(WindowEvent e) {
+                ObjectOutputStream os =null;
                 try {
-                    ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("prueba.data"));
+                     os = new ObjectOutputStream(new FileOutputStream("prueba.data"));
                     os.writeObject(Principal.this.tienda);
                 } catch (IOException ex) {
                     Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                }finally{
+                    if (os != null){
+                        try {
+                            os.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                 }
                 
             }

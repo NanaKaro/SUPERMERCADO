@@ -1,13 +1,14 @@
 
 package supermecado;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author zeus
  */
-public class Producto {
+public class Producto implements Serializable{
     
     String codigo;
     String nombre;

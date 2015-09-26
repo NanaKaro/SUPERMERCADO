@@ -5,11 +5,13 @@
  */
 package supermecado;
 
+import java.io.Serializable;
+
 /**
  *
  * @author zeus
  */
-public class Cliente {
+public class Cliente implements Serializable{
     
     
     private long identificacion;

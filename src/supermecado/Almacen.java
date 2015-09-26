@@ -5,6 +5,7 @@
  */
 package supermecado;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -12,7 +13,7 @@ import java.util.Date;
  *
  * @author zeus
  */
-public class Almacen {
+public class Almacen implements Serializable{
 
     private String nombre;
     private String NIT;

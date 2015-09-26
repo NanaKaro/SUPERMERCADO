@@ -5,6 +5,7 @@
  */
 package supermecado;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
@@ -15,7 +16,7 @@ import java.util.logging.Logger;
  *
  * @author zeus
  */
-public class Compra {
+public class Compra implements Serializable{
 
     private int costoTotal=0;
     private ArrayList<DetalleCompra> detalleCompras = new ArrayList<>();
@@ -108,6 +109,12 @@ public class Compra {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
@@ -116,11 +123,19 @@ public class Compra {
             return false;
         }
         final Compra other = (Compra) obj;
+        if (this.costoTotal != other.costoTotal) {
+            return false;
+        }
+        if (!Objects.equals(this.detalleCompras, other.detalleCompras)) {
+            return false;
+        }
         if (!Objects.equals(this.fecha, other.fecha)) {
             return false;
         }
         return true;
     }
+
+   
     
     
 

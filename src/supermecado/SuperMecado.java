@@ -25,7 +25,7 @@ public class SuperMecado {
         Almacen tienda=null;
         ObjectInputStream ois=null;
         
-        try {
+        try {   
             ois = new ObjectInputStream(new FileInputStream("prueba.data"));
             tienda = (Almacen) ois.readObject();
             

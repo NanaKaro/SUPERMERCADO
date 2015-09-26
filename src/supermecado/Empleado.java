@@ -5,13 +5,14 @@
  */
 package supermecado;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author zeus
  */
-public class Empleado {
+public class Empleado implements Serializable{
     
     long identificacion;
     String nombres;
