@@ -7,6 +7,11 @@ package GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -30,7 +35,44 @@ public class Principal extends javax.swing.JFrame {
     public Principal(Almacen almacen) {
         this.tienda = almacen;
         initComponents();
+        super.addWindowListener(new WindowListener() {
 
+            @Override
+            public void windowOpened(WindowEvent e) {
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("prueba.data"));
+                    os.writeObject(Principal.this.tienda);
+                } catch (IOException ex) {
+                    Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+            }
+        });
+        
         ManejadorVentana mv = new ManejadorVentana();
         mostrarVenta.addActionListener(mv);
 

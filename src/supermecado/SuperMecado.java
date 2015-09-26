@@ -3,6 +3,12 @@ package supermecado;
 
 import GUI.Principal;
 import GUI.Ventana;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,7 +21,38 @@ public class SuperMecado {
      */
     public static void main(String[] args) {
        //Datos Base
-        Almacen tienda = new Almacen("SuperMercado MERCAMAX", "800.456.123-1");
+        
+        Almacen tienda=null;
+        ObjectInputStream ois=null;
+        
+        try {
+            ois = new ObjectInputStream(new FileInputStream("prueba.data"));
+            tienda = (Almacen) ois.readObject();
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SuperMecado.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SuperMecado.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SuperMecado.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if(ois != null){
+                try {
+                    ois.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(SuperMecado.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
+        
+        if(tienda==null){
+            
+        
+                
+        
+                
+            tienda = new Almacen("SuperMercado MERCAMAX", "800.456.123-1");
         
          try {
 
@@ -50,6 +87,9 @@ public class SuperMecado {
             error.printStackTrace();
         }
         
+        }
+        
+         
         Principal w = new Principal (tienda);
        w.setVisible(true);
        

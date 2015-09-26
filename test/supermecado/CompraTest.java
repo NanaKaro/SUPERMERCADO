@@ -46,7 +46,7 @@ public class CompraTest {
         System.out.println("add");
         DetalleCompra detalle = null;
         Compra instance = null;
-        instance.add(detalle);
+        instance.agregar(detalle);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
