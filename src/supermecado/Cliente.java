@@ -6,17 +6,24 @@
 package supermecado;
 
 import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  *
  * @author zeus
  */
+@Entity
 public class Cliente implements Serializable{
     
-    
+    @Id
     private long identificacion;
+    @Column(nullable = false, length = 50)
     private String nombres;
+    @Column(nullable = false, length = 50)
     private String Apellidos;
+    @Column
     private int puntos=0;
 
     public Cliente(long identificacion, String nombres, String Apellidos) {
@@ -49,6 +56,20 @@ public class Cliente implements Serializable{
     public int getPuntos() {
         return puntos;
     }
+
+    public void setIdentificacion(long identificacion) {
+        this.identificacion = identificacion;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public void setApellidos(String Apellidos) {
+        this.Apellidos = Apellidos;
+    }
+    
+    
 
      @Override
     public boolean equals(Object obj) {

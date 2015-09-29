@@ -23,28 +23,7 @@ public class SuperMecado {
        //Datos Base
         
         Almacen tienda=null;
-        ObjectInputStream ois=null;
-        
-        try {   
-            ois = new ObjectInputStream(new FileInputStream("prueba.data"));
-            tienda = (Almacen) ois.readObject();
-            
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(SuperMecado.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SuperMecado.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(SuperMecado.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
-            if(ois != null){
-                try {
-                    ois.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(SuperMecado.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-        
+         
         
         if(tienda==null){
             

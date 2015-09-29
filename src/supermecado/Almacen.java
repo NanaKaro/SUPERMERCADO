@@ -8,6 +8,14 @@ package supermecado;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import persistence.ClienteJpaController;
+import persistence.CompraJpaController;
+import persistence.DetalleCompraJpaController;
+import persistence.EmpleadoJpaController;
+import persistence.ProductoJpaController;
 
 /**
  *
@@ -17,12 +25,19 @@ public class Almacen implements Serializable{
 
     private String nombre;
     private String NIT;
-    private ArrayList<Producto> productos = new ArrayList<>();
-    private ArrayList<Empleado> empleados = new ArrayList<>();
-    private ArrayList<Cliente> clientes = new ArrayList<>();
-    private ArrayList<Compra> compras = new ArrayList<>();
+    private List<Producto> productos = new ArrayList<>();
+    private List<Empleado> empleados = new ArrayList<>();
+    private List<Cliente> clientes = new ArrayList<>();
+    private List<Compra> compras = new ArrayList<>();
     public Empleado logueado; 
 
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SuperMecadoPU");
+    private ClienteJpaController clienteJpa = new ClienteJpaController(emf);
+    private CompraJpaController compraJpa = new CompraJpaController(emf);
+    private DetalleCompraJpaController detalleCompraJpa = new DetalleCompraJpaController(emf);
+    private EmpleadoJpaController empleadoJpa = new EmpleadoJpaController(emf);
+    private ProductoJpaController productoJpa = new ProductoJpaController(emf);
+            
     public Almacen(String nombre, String NIT) {
         this.nombre = nombre;
         this.NIT = NIT;
@@ -31,34 +46,22 @@ public class Almacen implements Serializable{
     //*******************************    
     // Agregado de obejtos a las listas correspondientes
     public void add(Producto producto) throws Exception {
-        if (productos.contains(producto)) {
-            throw new Exception("Ya esta registrado este producto: " + producto.toString());
-        }
-        productos.add(producto);
+       productoJpa.create(producto);
 
     }
 
     public void add(Empleado empleado) throws Exception {
-        if (empleados.contains(empleado)) {
-            throw new Exception("El empleado: " + empleado.toString() + " ya esta Registrado");
-        }
-        empleados.add(empleado);
+        empleadoJpa.create(empleado);
 
     }
 
     public void add(Cliente cliente) throws Exception {
-        if (clientes.contains(cliente)) {
-            throw new Exception("El cliente: " + cliente.toString() + " Ya esta registrado");
-        }
-        clientes.add(cliente);
+        clienteJpa.create(cliente);
 
     }
 
     public void add(Compra compra) throws Exception {
-        if (compras.contains(compra)) {
-            throw new Exception("La compra ya esta registrada");
-        }
-        compras.add(compra);
+        compraJpa.create(compra);
 
     }
 
@@ -74,34 +77,14 @@ public class Almacen implements Serializable{
      * @throws ObjectNotFoundException
      */
     public Empleado BuscarEmpleado(long id) throws ObjectNotFoundException {
-        Empleado employee = null;
-        for (Empleado worker : empleados) {
-            if (worker.getIdentificacion() == id) {
-                employee = worker;
-            }
-        }
-        if (employee == null) {
-            throw new ObjectNotFoundException("Empleado con id: " + id + " no encontrado");
-        }
-
-        return employee;
+        return empleadoJpa.findEmpleado(id);
 
     }
 
-    public Empleado BuscarEmpleado(String login) throws ObjectNotFoundException {
-        Empleado employee = null;
-        for (Empleado worker : empleados) {
-            if (worker.getLogin().equals(login)) {
-                employee = worker;
-            }
-        }
-        if (employee == null) {
-            throw new ObjectNotFoundException("login: " + login + " invalido");
-        }
-
-        return employee;
-
-    }
+//    public Empleado BuscarEmpleado(String login) throws ObjectNotFoundException {
+//        
+//
+//    }
 
     /**
      * busca el cliente en la lista de clientes por identificacion
@@ -111,15 +94,8 @@ public class Almacen implements Serializable{
      * @throws ObjectNotFoundException
      */
     public Cliente BuscarCliente(long id) throws ObjectNotFoundException {
-
-        for (Cliente client : clientes) {
-            if (client.getIdentificacion() == id) {
-                return client;
-            }
-        }
-
-        throw new ObjectNotFoundException("Cliente con id: " + id + " no encontrado");
-
+            return clienteJpa.findCliente(id);
+        
     }
 
     /**
@@ -130,34 +106,11 @@ public class Almacen implements Serializable{
      * @throws ObjectNotFoundException
      */
     public Producto BuscarProducto(String code) throws ObjectNotFoundException {
-        Producto item = null;
-        for (Producto product : productos) {
-            if (product.getCodigo().equalsIgnoreCase(code)) {
-                item = product;
-            }
-        }
-        if (item == null) {
-            throw new ObjectNotFoundException("Producto con codigo: " + code + " no encontrado");
-        }
-
-        return item;
+        return productoJpa.findProducto(code);
 
     }
 
-    public Compra BuscarCompra(Cliente client, Date fecha) throws ObjectNotFoundException {
-        Compra buy = null;
-        for (Compra purchase : compras) {
-            if (purchase.getCliente().equals(client) && (purchase.getFecha().equals(fecha))) {
-                buy = purchase;
-            }
-        }
-        if (buy == null) {
-            throw new ObjectNotFoundException("Compra del cliente: " + client.toString() + " en la fecha: " + fecha.toString() + " no encontrado");
-        }
-
-        return buy;
-
-    }
+    
 
     //******************************
     public String getNombre() {
@@ -168,7 +121,7 @@ public class Almacen implements Serializable{
         return NIT;
     }
 
-    public ArrayList<Compra> getCompras() {
+    public List<Compra> getCompras() {
         return compras;
     }
 

@@ -8,21 +8,42 @@ package supermecado;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author zeus
  */
+@Entity
 public class Compra implements Serializable{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column
     private int costoTotal=0;
-    private ArrayList<DetalleCompra> detalleCompras = new ArrayList<>();
+    @OneToMany
+    private List<DetalleCompra> detalleCompras = new ArrayList<>();
+    @OneToOne
     private Cliente cliente;
+    @OneToOne
     private Empleado empleado;
+    @Column
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date fecha;
+    
 
     public Compra( Empleado empleado, Cliente cliente) {
         this.cliente = cliente;
@@ -69,7 +90,7 @@ public class Compra implements Serializable{
         return fecha;
     }
 
-    public ArrayList<DetalleCompra> getDetalleCompras() {
+    public List<DetalleCompra> getDetalleCompras() {
         return detalleCompras;
     }
 
@@ -82,6 +103,27 @@ public class Compra implements Serializable{
     public int getCostoTotal() {
         return costoTotal;
     }
+
+    public void setCostoTotal(int costoTotal) {
+        this.costoTotal = costoTotal;
+    }
+
+    public void setDetalleCompras(List<DetalleCompra> detalleCompras) {
+        this.detalleCompras = detalleCompras;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+    
     
     /**
      * 
@@ -133,6 +175,14 @@ public class Compra implements Serializable{
             return false;
         }
         return true;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
    
